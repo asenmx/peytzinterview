@@ -1,0 +1,93 @@
+- name: Install nginx server
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: Ensure php is at the latest version
+    ansible.builtin.apt:
+      name: php7.4-fpm
+      state: present
+      update_cache: yes
+
+  - name: Ensure nginx is at the latest version
+    ansible.builtin.apt:
+      name: nginx
+      state: latest
+      update_cache: yes
+
+  - name: Write the default vhost file
+    ansible.builtin.copy:
+      src: default.conf
+      dest: /etc/nginx/sites-available/default
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: Create a symbolic link
+    ansible.builtin.file:
+      src: /etc/nginx/sites-available/default
+      dest: /etc/nginx/sites-enabled/default
+      owner: root
+      group: root
+      mode: 0744
+      state: link
+
+
+  - name: Creates directory default directory on webserver
+    ansible.builtin.file:
+      path: /var/www/default/
+      state: directory
+      owner: www-data
+      group: www-data
+
+  - name: copy index.php
+    ansible.builtin.copy:
+      src: index.php
+      dest: /var/www/default/index.php
+      owner: www-data
+      group: www-data
+      mode: 0744
+
+
+  - name: Copy test.peytzaws.dk vhost file
+    ansible.builtin.copy:
+      src: test.peytzaws.dk.conf
+      dest: /etc/nginx/sites-available/test.peytzaws.dk.conf
+      owner: root
+      group: root
+      mode: 0744
+
+  - name: Create a symbolic link
+    ansible.builtin.file:
+      src: /etc/nginx/sites-available/test.peytzaws.dk.conf
+      dest: /etc/nginx/sites-enabled/test.peytzaws.dk.conf
+      owner: root
+      group: root
+      mode: 0744
+      state: link
+
+  - name: Creates directory
+    ansible.builtin.file:
+      path: /var/www/test.peytzaws.dk/
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: 0744
+
+
+  - name: Copy index.html
+    ansible.builtin.copy:
+      src: index.html
+      dest: /var/www/test.peytzaws.dk/index.html
+      owner: www-data
+      group: www-data
+      mode: 0744
+
+
+  - name: Restart service nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+
+
