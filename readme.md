@@ -3,6 +3,7 @@ Task 1.1: Nginx webserver 2 - done
 Task 1.2: Multiple vhosts 3 - done 
 Task 1.3: nginx+php-fpm 3 - done
 
+Task 1.6: Recap shows only one change. The change is coming from restarting the nginx server, it would be good to have a handler instead, but no time to implement that.
 
 
 
