@@ -66,10 +66,8 @@ settings are also ok for this task.
 
 Create two users, with these settings:
 
-```
-● User Alpha should be added to the group's adm, andsudo.
-● User Bravo should only be added to www-data.
-```
+ User Alpha should be added to the group's adm, andsudo.
+ User Bravo should only be added to www-data.
 
 Both users should use "sh" as the default shell, and both users should have a
 group with the same name as the user. Try and use the least number of tasks you
